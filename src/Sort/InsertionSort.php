@@ -9,33 +9,22 @@ namespace Sort;
  */
 class InsertionSort
 {
-    public const ASC = 1;
-    public const DESC = -1;
-
-
-    public function sort(array $collection, $direction = self::ASC): array
+    public function sort(array $collection): array
     {
-        return $this->inSort($collection, $direction);
-    }
+        $count = \count($collection);
 
-    protected function inSort(array $collection, $direction): array
-    {
-        $sortFunc = $direction === self::ASC ? 'min' : 'max';
+        for ($i = 1; $i < $count; $i++) {
+            $x = $collection[$i];
+            $j = $i;
 
-        $sorted = [];
-        $tmpCollection = $collection;
+            while ($j > 0 && $collection[$j - 1] > $x) {
+                $collection[$j] = $collection[$j - 1];
+                $j--;
+            }
 
-        while (current($collection)) {
-            $minOrMaxValue = $sortFunc($tmpCollection);
-            $minOrMaxKey = array_search($minOrMaxValue, $tmpCollection, true);
-
-            unset($tmpCollection[$minOrMaxKey]);
-
-            $sorted[] = $minOrMaxValue;
-
-            next($collection);
+            $collection[$j] = $x;
         }
 
-        return $sorted;
+        return $collection;
     }
 }
